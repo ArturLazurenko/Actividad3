@@ -800,19 +800,132 @@ Cada opción pide dos números y muestra el resultado.
 En la opción de división, valida que el divisor no sea 0 y maneja el error (mensaje y volver a pedir divisor válido).  
 Usa do-while para repetir el menú hasta que el usuario elija salir.
 
-**Entrada (ejemplo)**  
+**Codigo**  
+```java
+package Actividad3;
 
-- `Opción 1, números: 10 y 5`  
-- `Opción 4, números: 8 y 0` (debe pedir otro divisor)  
-- `Opción 5`
+import java.util.Scanner;
 
-**Salida esperada (resumen)**  
+public class Actividades {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Ingresa el primer numero: ");
+        int numero1 = sc.nextInt();
 
-```text
-Suma: 15
-Error: no se puede dividir entre cero. Ingresa otro divisor.
-División: 8 / 2 = 4
+        System.out.println("Ingresa el segundo numero: ");
+        int numero2 = sc.nextInt();
+
+
+        int opcion; 
+
+        do {
+            System.out.println("\n=== MENÚ ===");
+            System.out.println("1. Sumar");
+            System.out.println("2. Restar");
+            System.out.println("3. Multiplicar");
+            System.out.println("4. Dividir");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+
+            opcion = sc.nextInt(); 
+            sc.nextLine();
+            int suma = numero1 + numero2;
+            int resta = numero1 - numero2;
+            int multiplicacion = numero1 * numero2;
+            int division = numero1 / numero2;
+            
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Suma: "+ suma);
+                    break;
+
+                case 2:
+                    System.out.println("resta: "+ resta);
+                    break;
+
+                case 3:
+                    System.out.println("Multiplicacion: "+ multiplicacion);
+                    break;
+
+                case 4:
+                    if (numero1 == 0 || numero2 == 0){
+                        System.out.println("No se puede dividir entre 0");
+                    } else {
+                        System.out.println("Division: "+ division);
+                    }
+                        
+                    break;
+                case 5:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+
+        } while (opcion != 5);
+
+        sc.close(); 
+    }
+}
+
+           
+        
+
 ```
+
+**Salida esperada**  
+`Ingresa el primer numero: 
+5
+Ingresa el segundo numero: 
+5
+
+=== MENÚ ===
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Salir
+Elige una opción: 1
+Suma: 10
+
+=== MENÚ ===
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Salir
+Elige una opción: 2
+resta: 0
+
+=== MENÚ ===
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Salir
+Elige una opción: 3
+Multiplicacion: 25
+
+=== MENÚ ===
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Salir
+Elige una opción: 4
+Division: 1
+
+=== MENÚ ===
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Salir
+Elige una opción: 5
+Saliendo...`
+
 
 ---
 
