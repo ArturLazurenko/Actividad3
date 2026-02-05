@@ -184,16 +184,64 @@ Calcula y muestra:
 - Cuántas calificaciones son mayores o iguales a 70 (aprobadas).  
 - Cuántas son menores a 70 (reprobadas).
 
-**Entrada (ejemplo)**  
-- `n = 5`  
-- `Calificaciones: 100 80 60 70 50`
+**Codigo**  
+```java
+package Actividad3;
+import java.util.Scanner;
+
+public class Actividades {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+
+        do {
+            System.out.print("¿Cuántas calificaciones deseas capturar? (máx 10): ");
+            n = sc.nextInt();
+        } while (n < 1 || n > 10);
+
+        double[] calificaciones = new double[n];
+        double suma = 0;
+        int aprobadas = 0;
+        int reprobadas = 0;
+
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Ingresa la calificación " + (i + 1) + ": ");
+            calificaciones[i] = sc.nextDouble();
+
+            suma += calificaciones[i];
+
+            if (calificaciones[i] >= 70) {
+                aprobadas++;
+            } else {
+                reprobadas++;
+            }
+        }
+
+        double promedio = suma / n;
+
+        System.out.println("\nResultados:");
+        System.out.println("Promedio: " + promedio);
+        System.out.println("Calificaciones aprobadas (>= 70): " + aprobadas);
+        System.out.println("Calificaciones reprobadas (< 70): " + reprobadas);
+
+        sc.close();
+    }
+}
+
+
+```
 
 **Salida esperada**  
-```text
-Promedio: 72.0
-Aprobadas: 3
-Reprobadas: 2
-```
+`Ingresa la calificación 2: 80
+Ingresa la calificación 3: 20
+Ingresa la calificación 4: 40
+
+Resultados:
+Promedio: 60.0
+Calificaciones aprobadas (>= 70): 2
+Calificaciones reprobadas (< 70): 2`
 
 ---
 
@@ -205,14 +253,53 @@ Convierte la palabra a minúsculas y recórrela carácter por carácter.
 Cuenta cuántas vocales (a, e, i, o, u) y cuántas consonantes (letras que no son vocales).  
 Ignora caracteres que no sean letras.
 
-**Entrada (ejemplo)**  
-- `Palabra: Programacion`
+**Codigo**  
+```java
+package Actividad3;
+
+import java.util.Scanner;
+
+public class Actividades {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Ingresa una palabra (sin espacios): ");
+        String palabra = sc.next();
+
+        palabra = palabra.toLowerCase();
+
+        int vocales = 0;
+        int consonantes = 0;
+
+        for (int i = 0; i < palabra.length(); i++) {
+            char c = palabra.charAt(i);
+
+            if (Character.isLetter(c)) {
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    vocales++;
+                } else {
+                    consonantes++;
+                }
+            }
+        }
+
+        System.out.println("\nResultados:");
+        System.out.println("Vocales: " + vocales);
+        System.out.println("Consonantes: " + consonantes);
+
+        sc.close();
+    }
+}
+
+
+```
 
 **Salida esperada**  
-```text
-Vocales: 5
-Consonantes: 7
-```
+`Ingresa una palabra (sin espacios): palabra
+
+Resultados:
+Vocales: 3
+Consonantes: 4`
 
 ---
 
@@ -223,17 +310,59 @@ Pide n números enteros y guárdalos en un arreglo.
 Escribe un método estático que reciba el arreglo y regrese true si está ordenado de forma ascendente (cada elemento >= anterior), o false en caso contrario.  
 Desde main, muestra un mensaje indicando si el arreglo está ordenado.
 
-**Entrada (ejemplo 1)**  
-- `Arreglo: 1 2 2 5 9`
+**Codigo**  
+```java
+package Actividad3;
+
+import java.util.Scanner;
+
+public class Actividades {
+    
+    public static boolean estaOrdenadoAsc(int[] arreglo) {
+        for (int i = 1; i < arreglo.length; i++) {
+            if (arreglo[i] < arreglo[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Cuántos números deseas ingresar? ");
+        int n = sc.nextInt();
+
+        int[] numeros = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Ingresa el número " + (i + 1) + ": ");
+            numeros[i] = sc.nextInt();
+        }
+
+        if (estaOrdenadoAsc(numeros)) {
+            System.out.println("\nEl arreglo está ordenado de forma ascendente.");
+        } else {
+            System.out.println("\nEl arreglo NO está ordenado de forma ascendente.");
+        }
+
+        sc.close();
+    }
+}
+
+    
+```
 
 **Salida esperada**  
-`El arreglo está ordenado.`
+`Cuántos números deseas ingresar? 5
+Ingresa el número 1: 1
+Ingresa el número 2: 2
+Ingresa el número 3: 3
+Ingresa el número 4: 6
+Ingresa el número 5: 7
 
-**Entrada (ejemplo 2)**  
-- `Arreglo: 3 1 4 2`
+El arreglo está ordenado de forma ascendente.`
 
-**Salida esperada**  
-`El arreglo NO está ordenado.`
 
 ---
 
@@ -255,17 +384,80 @@ En main:
 - Crea un objeto Rectangulo.  
 - Muestra su área y perímetro.
 
-**Entrada (ejemplo)**  
+**Codigo**  
+```java
+package Actividad3;
 
-- `Ancho: 5`  
-- `Alto: 3`
+import java.util.Scanner;
+
+public class Actividades {
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Ingrese el ancho: ");
+        double altura = sc.nextInt();
+
+        System.out.print("Ingrese la altura: ");
+        double anchura = sc.nextInt();
+
+        Rectangulo rectangulo = new Rectangulo(anchura,altura);
+        
+        rectangulo.calcularArea();
+        rectangulo.calcularPerimetro();
+
+        sc.close();
+    }
+}
+
+
+
+class Rectangulo {
+
+    private double ancho;
+    private double alto;
+
+    public Rectangulo(double ancho, double alto) {
+        this.ancho = ancho;
+        this.alto = alto;
+    }
+
+    public double getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(double ancho) {
+        this.ancho = ancho;
+    }
+
+    public double getAlto() {
+        return alto;
+    }
+
+    public void setAlto(double alto) {
+        this.alto = alto;
+    }
+
+    public void calcularArea(){
+        System.out.println("Area: " + (alto*ancho));
+    }
+    public void calcularPerimetro(){
+        System.out.println("Perrimetro: " + ((alto*2)+(ancho*2)));
+    }
+}
+
+
+    
+```
 
 **Salida esperada**  
+`Ingrese el ancho: 6
+Ingrese la altura: 7
+Area: 42.0
+Perrimetro: 26.0`
 
-```text
-Área: 15.0
-Perímetro: 16.0
-```
+
 
 ---
 
@@ -277,14 +469,67 @@ Luego pide un número x a buscar.
 Usa un método estático buscarElemento(int[] arr, int x) que regrese el índice donde se encuentra la primera ocurrencia de x, o -1 si no existe.  
 En main, muestra un mensaje adecuado.
 
-**Entrada (ejemplo)**  
+**Codigo**  
+```java
+package Actividad3;
 
-- `n = 6`  
-- `Arreglo: 4 7 2 7 9 1`  
-- `x = 7`
+import java.util.Scanner;
+
+public class Actividades {
+    
+    public static int buscarElemento(int[] arr, int x) {
+    for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == x) {
+            return i;
+        }
+    }
+    return -1; 
+}
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Cuántos números deseas ingresar? ");
+        int n = sc.nextInt();
+
+        int[] numeros = new int[n];
+
+        for (int j = 0; j < n; j++) {
+            System.out.print("Ingresa el número " + (j + 1) + ": ");
+            numeros[j] = sc.nextInt();
+        }
+
+
+        System.out.print("que numero desea buscar? ");
+        int busqueda = sc.nextInt();
+
+        int indice = buscarElemento(numeros, busqueda);
+        if (indice == -1){
+            System.out.println("No se encontro el numero");
+        } else {
+            System.out.println("el numero " + busqueda + " se encontro en el indice "+ indice);
+        }
+
+
+        sc.close();
+    }
+}
+
+
+    
+```
 
 **Salida esperada**  
-`El número 7 se encontró en el índice: 1`
+`Cuántos números deseas ingresar? 5
+Ingresa el número 1: 6
+Ingresa el número 2: 7
+Ingresa el número 3: 6
+Ingresa el número 4: 8
+Ingresa el número 5: 6
+que numero desea buscar? 6
+el numero 6 se encontro en el indice 0`
+
 
 ---
 
