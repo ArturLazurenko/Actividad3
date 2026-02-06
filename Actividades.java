@@ -7,131 +7,202 @@ public class Actividades {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        Libro libro = new Libro("Diario de Greg", "Greg", 5, 2);
-
-        int opcion; 
+        Articulo[] articulos = new Articulo[5];
+        int opcion;
 
         do {
-            System.out.println("\n=== MENÚ BIBLIOTECA ===");
-            System.out.println("1. Ver información del libro");
-            System.out.println("2. Pedir prestado un libro");
-            System.out.println("3. Devolver un libro");
-            System.out.println("4. Salir");
-            System.out.print("Elige una opción: ");
-            
-            opcion = sc.nextInt(); 
-            sc.nextLine();
+            System.out.println("\n=== MENÚ ===");
+            System.out.println("1. Agregar artículo");
+            System.out.println("2. Mostrar artículos");
+            System.out.println("3. Vender artículo");
+            System.out.println("4. Reabastecer artículo");
+            System.out.println("5. Salir");
+            System.out.print("Opción: ");
+
+            try {
+                opcion = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Opción inválida.");
+                opcion = 0;
+            }
 
             switch (opcion) {
-                case 1:
-                    libro.mostrarInfo();
-                    break;
 
-                case 2:
-                    if (libro.prestar()) {
-                        System.out.println("Se ha prestado correctamente");
-                    } else {
-                        System.out.println("No hay ejemplares disponibles");
+                case 1: 
+                    int posLibre = -1;
+                    for (int i = 0; i < articulos.length; i++) {
+                        if (articulos[i] == null) {
+                            posLibre = i;
+                            break;
+                        }
+                    }
+
+                    if (posLibre == -1) {
+                        System.out.println("No hay espacio para más artículos.");
+                        break;
+                    }
+
+                    try {
+                        System.out.print("Código: ");
+                        String codigo = sc.nextLine();
+
+                        System.out.print("Descripción: ");
+                        String descripcion = sc.nextLine();
+
+                        System.out.print("Precio: ");
+                        double precio = Double.parseDouble(sc.nextLine());
+
+                        System.out.print("Existencia: ");
+                        int existencia = Integer.parseInt(sc.nextLine());
+
+                        articulos[posLibre] = new Articulo(codigo, descripcion, precio, existencia);
+                        System.out.println("Artículo agregado correctamente.");
+
+                    } catch (Exception e) {
+                        System.out.println("Error en los datos ingresados.");
                     }
                     break;
 
-                case 3:
-                    if (libro.devolver()) {
-                        System.out.println("Se ha devuelto correctamente");
-                    } else {
-                        System.out.println("No hay libros prestados");
+                case 2: 
+                    System.out.println("\n--- ARTÍCULOS ---");
+                    for (Articulo a : articulos) {
+                        if (a != null) {
+                            a.mostrar();
+                        }
                     }
                     break;
 
-                case 4:
-                    System.out.println("Saliendo del sistema...");
+                case 3: 
+                    System.out.print("Código del artículo: ");
+                    String codVenta = sc.nextLine();
+
+                    System.out.print("Cantidad a vender: ");
+                    try {
+                        int cant = Integer.parseInt(sc.nextLine());
+                        boolean encontrado = false;
+
+                        for (Articulo a : articulos) {
+                            if (a != null && a.getCodigo().equals(codVenta)) {
+                                encontrado = true;
+                                if (a.actualizarExistencia(-cant)) {
+                                    System.out.println("Venta realizada. Nueva existencia: " + a.getExistencia());
+                                }
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            System.out.println("Artículo no encontrado.");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Cantidad inválida.");
+                    }
+                    break;
+
+                case 4: 
+                    System.out.print("Código del artículo: ");
+                    String codRestock = sc.nextLine();
+
+                    System.out.print("Cantidad a agregar: ");
+                    try {
+                        int cant = Integer.parseInt(sc.nextLine());
+                        boolean encontrado = false;
+
+                        for (Articulo a : articulos) {
+                            if (a != null && a.getCodigo().equals(codRestock)) {
+                                encontrado = true;
+                                a.actualizarExistencia(cant);
+                                System.out.println("Reabastecimiento realizado. Nueva existencia: " + a.getExistencia());
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            System.out.println("Artículo no encontrado.");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Cantidad inválida.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo...");
                     break;
 
                 default:
-                    System.out.println("Opción inválida");
+                    System.out.println("Opción no válida.");
             }
 
-        } while (opcion != 4);
-
-        sc.close(); 
+        } while (opcion != 5);
+        sc.close();
     }
 }
 
+class Articulo{
+
+    private String codigo;
+    private String descripcion;
+    private double precio;
+    private int existencia;
 
 
-class Libro {
-
-
-    private String titulo;
-    private String autor;
-    private int totalEjemplares;
-    private int ejemplaresPrestados;
-
-    public Libro(String titulo, String autor, int totalEjemplares, int ejemplaresPrestados) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.totalEjemplares = totalEjemplares;
-        this.ejemplaresPrestados = ejemplaresPrestados;
+    public Articulo(String codigo, String descripcion, double precio, int existencia) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.existencia = existencia;
     }
 
-    // Getters y setters
-    public String getTitulo() {
-        return titulo;
+
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public String getAutor() {
-        return autor;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public int getTotalEjemplares() {
-        return totalEjemplares;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setTotalEjemplares(int totalEjemplares) {
-        this.totalEjemplares = totalEjemplares;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    public int getEjemplaresPrestados() {
-        return ejemplaresPrestados;
+    public int getExistencia() {
+        return existencia;
     }
 
-    public void setEjemplaresPrestados(int ejemplaresPrestados) {
-        this.ejemplaresPrestados = ejemplaresPrestados;
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
     }
 
-    // Método prestar
-    public boolean prestar() {
-        if (totalEjemplares - ejemplaresPrestados > 0) {
-            ejemplaresPrestados++;
-            return true;
+
+    public void mostrar() {
+        System.out.println("Código: " + codigo +
+                ", Descripción: " + descripcion +
+                ", Precio: " + precio +
+                ", Existencia: " + existencia);
+    }
+
+
+    public boolean actualizarExistencia(int cantidad) {
+        if (existencia + cantidad < 0) {
+            System.out.println("No hay suficiente existencia para realizar la operación.");
+            return false;
         }
-        return false;
+        existencia += cantidad;
+        return true;
     }
-
-    // Método devolver
-    public boolean devolver() {
-        if (ejemplaresPrestados > 0) {
-            ejemplaresPrestados--;
-            return true;
-        }
-        return false;
-    }
-
-    // Método mostrarInfo
-    public void mostrarInfo() {
-        System.out.println("Título: " + titulo);
-        System.out.println("Autor: " + autor);
-        System.out.println("Total de ejemplares: " + totalEjemplares);
-        System.out.println("Ejemplares prestados: " + ejemplaresPrestados);
-        System.out.println("Ejemplares disponibles: " + 
-                           (totalEjemplares - ejemplaresPrestados));
-    } 
-} 
+}

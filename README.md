@@ -1119,11 +1119,61 @@ Remueve espacios y conviértela a minúsculas.
 Luego, verifica si se lee igual de izquierda a derecha y de derecha a izquierda (palíndromo).  
 No uses métodos de librerías que ya lo hagan directo: trabaja con índices o un arreglo de caracteres y un ciclo for o while.
 
-**Entrada (ejemplo)**  
-- `Frase: Anita lava la tina`
+```java
+
+package Actividad3;
+
+import java.util.Scanner;
+
+public class Actividades {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Ingresa una frase: ");
+        String frase = sc.nextLine();
+
+        String limpia = "";
+        for (int i = 0; i < frase.length(); i++) {
+            char c = frase.charAt(i);
+            if (c != ' ') {
+                if (c >= 'A' && c <= 'Z') {
+                    c = (char)(c + 32); 
+                }
+                limpia += c;
+            }
+        }
+
+        boolean esPalindromo = true;
+        int i = 0;
+        int j = limpia.length() - 1;
+
+        while (i < j) {
+            if (limpia.charAt(i) != limpia.charAt(j)) {
+                esPalindromo = false;
+                break;
+            }
+            i++;
+            j--;
+        }
+
+        if (esPalindromo) {
+            System.out.println("La frase ES un palíndromo");
+        } else {
+            System.out.println("La frase NO es un palíndromo");
+        }
+        sc.close();
+    }
+}
+
+           
+        
+
+```
 
 **Salida esperada**  
-`La frase es un palíndromo.`
+Ingresa una frase: ojo
+La frase ES un palíndromo
 
 ---
 
@@ -1139,22 +1189,82 @@ Calcula y muestra el promedio de cada estudiante.
 
 Calcula y muestra el promedio de cada materia.
 
-**Entrada (ejemplo)**  
+```java
+package Actividad3;
 
-- `f = 2, c = 3`  
-- `Notas:`  
-- `Estudiante 0: 80 90 100`  
-- `Estudiante 1: 70 60 50`
+import java.util.Scanner;
+
+public class Actividades {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int f, c;
+
+        System.out.print("Ingresa el número de estudiantes: ");
+        f = sc.nextInt();
+
+        System.out.print("Ingresa el número de materias: ");
+        c = sc.nextInt();
+
+        double[][] calificaciones = new double[f][c];
+
+        for (int i = 0; i < f; i++) {
+            System.out.println("\nEstudiante " + (i + 1));
+            for (int j = 0; j < c; j++) {
+                System.out.print("Calificación de la materia " + (j + 1) + ": ");
+                calificaciones[i][j] = sc.nextDouble();
+            }
+        }
+
+        System.out.println("\n--- Promedio por estudiante ---");
+        for (int i = 0; i < f; i++) {
+            double suma = 0;
+            for (int j = 0; j < c; j++) {
+                suma += calificaciones[i][j];
+            }
+            double promedio = suma / c;
+            System.out.println("Estudiante " + (i + 1) + ": " + promedio);
+        }
+
+        System.out.println("\n--- Promedio por materia ---");
+        for (int j = 0; j < c; j++) {
+            double suma = 0;
+            for (int i = 0; i < f; i++) {
+                suma += calificaciones[i][j];
+            }
+            double promedio = suma / f;
+            System.out.println("Materia " + (j + 1) + ": " + promedio);
+        }
+        sc.close();
+    }
+    
+}
+
+           
+        
+
+```
 
 **Salida esperada**  
+Ingresa el número de estudiantes: 2
+Ingresa el número de materias: 2
 
-```text
-Promedio estudiante 0: 90.0
-Promedio estudiante 1: 60.0
-Promedio materia 0: 75.0
-Promedio materia 1: 75.0
-Promedio materia 2: 75.0
-```
+Estudiante 1
+Calificación de la materia 1: 67
+Calificación de la materia 2: 100
+
+Estudiante 2
+Calificación de la materia 1: 60
+Calificación de la materia 2: 80
+
+--- Promedio por estudiante ---
+Estudiante 1: 83.5
+Estudiante 2: 70.0
+
+--- Promedio por materia ---
+Materia 1: 63.5
+Materia 2: 90.0
 
 ---
 
@@ -1168,21 +1278,61 @@ Si los datos son correctos, muestra "Acceso concedido" y termina.
 Si se alcanzan 3 intentos fallidos, muestra "Cuenta bloqueada" y termina.  
 Usa un ciclo while o for para contar intentos.
 
-**Entrada (ejemplo)**  
+```java
+package Actividad3;
 
-- `Intento 1: user admin, pass 1111`  
-- `Intento 2: user Admin, pass 1234` (no debe aceptar si comparas con equals sensible a mayúsculas)  
-- `Intento 3: user admin, pass 1234`
+import java.util.Scanner;
+
+public class Actividades {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String user = "admin";
+        int contra = 1234;
+
+        boolean acceso = false;
+
+        for (int intentos = 1; intentos <= 3; intentos++) {
+
+            System.out.print("Usuario: ");
+            String usuario = sc.nextLine();
+
+            System.out.print("Contraseña: ");
+            int password = sc.nextInt();
+
+            if (usuario.equals(user) && contra == password) {
+                System.out.println("Acceso concedido");
+                acceso = true;
+                break;
+            } else {
+                System.out.println("Datos incorrectos. Intento " + intentos + " de 3");
+                System.out.println("[" + usuario + "]");
+                System.out.println("[" + password + "]");
+
+            }
+        }
+
+        if (!acceso) {
+            System.out.println("Cuenta bloqueada");
+        }
+        sc.close();
+    }
+}
+           
+        
+
+```
 
 **Salida esperada**  
-
-```text
-Datos incorrectos. Te quedan 2 intentos.
-Datos incorrectos. Te quedan 1 intentos.
-Acceso concedido.
-```
-(O termina en "Cuenta bloqueada" si los tres fallan.)
-
+Usuario: Admin
+Contraseña: 1234
+Datos incorrectos. Intento 1 de 3
+[Admin]
+[1234]
+Usuario: admin
+Contraseña: 1234
+Acceso concedido
 ---
 
 ## 15. Gestión de inventario con clase y menú (difícil)
@@ -1214,21 +1364,261 @@ Crea un menú con do-while y switch:
 
 Usa manejo de errores para lectura numérica (precio, existencia, cantidad).
 
-**Entrada (ejemplo, flujo reducido)**  
 
-- `Opción 1: agregar artículo código A1, desc "Lapicero", precio 10, existencia 100`  
-- `Opción 2: mostrar artículos`  
-- `Opción 3: vender código A1, cantidad 30`  
-- `Opción 3: vender código A1, cantidad 100` (debe decir que no hay suficiente)  
-- `Opción 2: mostrar artículos`  
-- `Opción 5: salir`
+```java
+package Actividad3;
 
-**Salida esperada (resumen)**  
+import java.util.Scanner;
 
-```text
-Artículo agregado correctamente.
-Código: A1, Descripción: Lapicero, Precio: 10.0, Existencia: 100
-Venta realizada. Nueva existencia: 70
-No hay suficiente existencia para vender esa cantidad.
-Código: A1, Descripción: Lapicero, Precio: 10.0, Existencia: 70
+public class Actividades {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Articulo[] articulos = new Articulo[5];
+        int opcion;
+
+        do {
+            System.out.println("\n=== MENÚ ===");
+            System.out.println("1. Agregar artículo");
+            System.out.println("2. Mostrar artículos");
+            System.out.println("3. Vender artículo");
+            System.out.println("4. Reabastecer artículo");
+            System.out.println("5. Salir");
+            System.out.print("Opción: ");
+
+            try {
+                opcion = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Opción inválida.");
+                opcion = 0;
+            }
+
+            switch (opcion) {
+
+                case 1: 
+                    int posLibre = -1;
+                    for (int i = 0; i < articulos.length; i++) {
+                        if (articulos[i] == null) {
+                            posLibre = i;
+                            break;
+                        }
+                    }
+
+                    if (posLibre == -1) {
+                        System.out.println("No hay espacio para más artículos.");
+                        break;
+                    }
+
+                    try {
+                        System.out.print("Código: ");
+                        String codigo = sc.nextLine();
+
+                        System.out.print("Descripción: ");
+                        String descripcion = sc.nextLine();
+
+                        System.out.print("Precio: ");
+                        double precio = Double.parseDouble(sc.nextLine());
+
+                        System.out.print("Existencia: ");
+                        int existencia = Integer.parseInt(sc.nextLine());
+
+                        articulos[posLibre] = new Articulo(codigo, descripcion, precio, existencia);
+                        System.out.println("Artículo agregado correctamente.");
+
+                    } catch (Exception e) {
+                        System.out.println("Error en los datos ingresados.");
+                    }
+                    break;
+
+                case 2: 
+                    System.out.println("\n--- ARTÍCULOS ---");
+                    for (Articulo a : articulos) {
+                        if (a != null) {
+                            a.mostrar();
+                        }
+                    }
+                    break;
+
+                case 3: 
+                    System.out.print("Código del artículo: ");
+                    String codVenta = sc.nextLine();
+
+                    System.out.print("Cantidad a vender: ");
+                    try {
+                        int cant = Integer.parseInt(sc.nextLine());
+                        boolean encontrado = false;
+
+                        for (Articulo a : articulos) {
+                            if (a != null && a.getCodigo().equals(codVenta)) {
+                                encontrado = true;
+                                if (a.actualizarExistencia(-cant)) {
+                                    System.out.println("Venta realizada. Nueva existencia: " + a.getExistencia());
+                                }
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            System.out.println("Artículo no encontrado.");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Cantidad inválida.");
+                    }
+                    break;
+
+                case 4: 
+                    System.out.print("Código del artículo: ");
+                    String codRestock = sc.nextLine();
+
+                    System.out.print("Cantidad a agregar: ");
+                    try {
+                        int cant = Integer.parseInt(sc.nextLine());
+                        boolean encontrado = false;
+
+                        for (Articulo a : articulos) {
+                            if (a != null && a.getCodigo().equals(codRestock)) {
+                                encontrado = true;
+                                a.actualizarExistencia(cant);
+                                System.out.println("Reabastecimiento realizado. Nueva existencia: " + a.getExistencia());
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            System.out.println("Artículo no encontrado.");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Cantidad inválida.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+
+        } while (opcion != 5);
+        sc.close();
+    }
+}
+
+class Articulo{
+
+    private String codigo;
+    private String descripcion;
+    private double precio;
+    private int existencia;
+
+
+    public Articulo(String codigo, String descripcion, double precio, int existencia) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.existencia = existencia;
+    }
+
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public int getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+
+
+    public void mostrar() {
+        System.out.println("Código: " + codigo +
+                ", Descripción: " + descripcion +
+                ", Precio: " + precio +
+                ", Existencia: " + existencia);
+    }
+
+
+    public boolean actualizarExistencia(int cantidad) {
+        if (existencia + cantidad < 0) {
+            System.out.println("No hay suficiente existencia para realizar la operación.");
+            return false;
+        }
+        existencia += cantidad;
+        return true;
+    }
+}
+
+        
+
 ```
+
+**Salida esperada** 
+=== MENÚ ===
+1. Agregar artículo
+2. Mostrar artículos
+3. Vender artículo
+4. Reabastecer artículo
+5. Salir
+Opción: 2
+
+--- ARTÍCULOS ---
+
+=== MENÚ ===
+1. Agregar artículo
+2. Mostrar artículos
+3. Vender artículo
+4. Reabastecer artículo
+5. Salir
+Opción: 1
+Código: a1
+Descripción: a
+Precio: 12
+Existencia: 2
+Artículo agregado correctamente.
+
+=== MENÚ ===
+1. Agregar artículo
+2. Mostrar artículos
+3. Vender artículo
+4. Reabastecer artículo
+5. Salir
+Opción: 2
+
+--- ARTÍCULOS ---
+Código: a1, Descripción: a, Precio: 12.0, Existencia: 2 
+=== MENÚ ===
+1. Agregar artículo
+2. Mostrar artículos
+3. Vender artículo
+4. Reabastecer artículo
+5. Salir
+Opción: 5
+Saliendo...
+---
